@@ -1,8 +1,0 @@
-<ul>
-{% for item in items %}
-<li class="row-fluid">
-<a class="span2" href="/leaves/{{ item.articleid }}/">{{ item.title|title }}</a>
-<a class="span8" href="/leaves/{{ item.articleid }}/">{{ item.content|striptags|cut:"&nbsp;"|center:"1"|truncatewords:"2"|escape }}</a>
-<li>
-{% endfor %}
-</ul>
