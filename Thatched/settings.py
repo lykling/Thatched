@@ -1,4 +1,4 @@
-# Django settings for blog project.
+# Django settings for Thatched project.
 import os.path
 
 DEBUG = True
@@ -46,7 +46,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = '/var/www/blog/static/media'
+MEDIA_ROOT = '/var/www/Thatched/static/media'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -68,7 +68,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	'/var/www/blog/static/',
+	'/var/www/Thatched/static/',
 	#os.path.join(os.path.dirname(__file__), 'static').replace('\\','/'),
 )
 
@@ -100,16 +100,16 @@ MIDDLEWARE_CLASSES = (
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'blog.urls'
+ROOT_URLCONF = 'Thatched.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
-WSGI_APPLICATION = 'blog.wsgi.application'
+WSGI_APPLICATION = 'Thatched.wsgi.application'
 
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	'/var/www/blog/templates/',
+	'/var/www/Thatched/templates/',
 	#os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
 )
 
@@ -200,5 +200,5 @@ TINYMCE_DEFAULT_CONFIG = {
 	'width': 600,
 	'height': 400,
 }
-CKEDITOR_UPLOAD_PATH = "/var/www/blog/static/uploads"
+CKEDITOR_UPLOAD_PATH = "/var/www/Thatched/static/uploads"
 CKEDITOR_UPLOAD_PREFIX = "/static/uploads"
