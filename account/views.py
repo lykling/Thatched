@@ -98,6 +98,7 @@ def profile(request, uid):
 		'intro':		loginuser.profile.intro,
 		})
 	if uid:
+		user = User.objects.get(uid=uid)
 		pass
 	if request.method == "POST":
 		form = ProfileForm(request.POST, request.FILES)
