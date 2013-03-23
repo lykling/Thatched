@@ -342,3 +342,15 @@ html,body {
 *:first-child+html .toolbar_menu {
 	zoom:					1;
 }
+.errorlist {
+	width:					100%;
+	margin:					0px;
+	padding:				0px;
+	text-align:				center;
+	position:				relative;
+	display:				block;
+}
+.errorlist li {
+	list-style-type:		none;
+	color:					red;
+}

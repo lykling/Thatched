@@ -15,7 +15,6 @@ def login(request):
 		},context_instance=RequestContext(request))
 	loginform = LoginForm()
 	registerform = RegisterForm()
-	slat = randomstr(5)
 	#sessionid = md5(randomstr(27) + slat).hexdigest()
 	if request.method == "POST":
 		submit = request.POST.get('submit', '')
@@ -59,7 +58,7 @@ def login(request):
 					Classification.objects.create(creator=user,classname='unclassified')
 					request.session['user'] = user
 				return HttpResponseRedirect("/")
-	loginform.fields['slat'].widget.attrs['value'] = slat
+	slat = randomstr(5)
 	request.session['slat'] = slat
 	#loginform.fields['session'].widget.attrs['value'] = sessionid
 	#AuthSession.objects.create(
@@ -70,6 +69,7 @@ def login(request):
 		'errors':		errors,
 		'loginform':	loginform,
 		'registerform':	registerform,
+		'slat':			slat,
 	},context_instance=RequestContext(request))
 
 def logout(request):
@@ -124,13 +124,39 @@ def profile(request, uid):
 					box = (0, (tph - tpw) / 2, tpw, (tph + tpw) / 2)
 				avatar_p = CropImage(avatar, box, 120, "%s/%s.p" % (path, filename))
 				loginuser.profile.avatar		= img
+			pwd_old = form.cleaned_data['password_old']
+			pwd_new = form.cleaned_data['password_new']
+			pwd_cfm = form.cleaned_data['password_cfm']
+			if (not pwd_old) and (not pwd_new) and (not pwd_cfm):
+				a = "hello world"
+			else:
+				slat_p = request.session['slat']
+				if loginuser.md5pwdequal(slat=slat_p, opwd=pwd_old):
+					if pwd_new != pwd_cfm:
+						errors.append(u"Please check that your passwords match and try again.")
+					else:
+						loginuser.password = pwd_new
+						loginuser.save()
+				else:
+					errors.append(u"password error.")
+			nickname = form.cleaned_data['nickname']
+			realname = form.cleaned_data['realname']
+			if not CharValid(nickname):
+				errors.append(u"nickname contain invalid character.")
+			else:
+				loginuser.profile.nickname = nickname
+			if not CharValid(realname):
+				errors.append(u"realname contain invalid character.")
+			else:
+				loginuser.profile.realname = realname
 			loginuser.profile.sns			= form.cleaned_data['sns']
-			loginuser.profile.nickname		= form.cleaned_data['nickname']
-			loginuser.profile.realname		= form.cleaned_data['realname']
 			loginuser.profile.intro			= form.cleaned_data['intro']
 			loginuser.profile.save()
+	slat = randomstr(5)
+	request.session['slat'] = slat
 	return render_to_response('account/profile.html', {
 		'errors':		errors,
 		'loginuser':	loginuser,
 		'form':			form,
+		'slat':			slat,
 	},context_instance=RequestContext(request))

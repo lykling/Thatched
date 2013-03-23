@@ -2,6 +2,7 @@
 {% block head_ext %}
 <script type="text/javascript" src="/static/js/csrf.js"></script>
 <script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/static/js/md5.js"></script>
 <style>
 	@-webkit-keyframes scaleOut {
 		0% {
@@ -171,7 +172,7 @@
 	}
 	.profiletab a:hover {
 		text-decoration:	none;
-		color:				rgba(255,255,255,1.0);
+		color:				rgba(0,153,255,1.0);
 	}
 	/*
 	.profiletab a:visited {
@@ -313,20 +314,32 @@
 			next();
 		});
 	}
+	function trans_pwd() {  
+		var pwdold = profileform.id_password_old.value;
+		var pwdnew = profileform.id_password_new.value;
+		var pwdcfm = profileform.id_password_cfm.value;
+		if (pwdold != '') {
+			document.getElementById("id_password_old").value=hex_md5(hex_md5(profileform.id_password_old.value) + profileform.id_slat.value);
+		}
+		if (pwdnew != '') {
+			document.getElementById("id_password_new").value=hex_md5(profileform.id_password_new.value);  
+		}
+		if (pwdcfm != '') {
+			document.getElementById("id_password_cfm").value=hex_md5(profileform.id_password_cfm.value);  
+		}
+	}
 </script>
 {% endblock %}
 {% block body %}
-{% if errors %}
-<ul class="">
-	{% for error in errors %}
-	<li>{{ error }}</li>
-	{% endfor %}
-</ul>
-{% else %}
 <div class="blocks">
 	<div id="profile" class="box">
-		<form class="userprofile" enctype="multipart/form-data" action="/profile/" method="post">
+		<form name="profileform" class="userprofile" enctype="multipart/form-data" action="/profile/" method="post">
 			{% csrf_token %}
+			<ul class="errorlist">
+				{% for error in errors %}
+				<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
 			<div class="profiletab">
 				<ul>
 					<li id="tab1" class="currtab" onclick="currtab('#tab1')"><a class="" href="#info">info</a></li>
@@ -359,11 +372,23 @@
 					</div>
 				</div>
 				<div id="formsecurity" class="animate form">
-					<input type="password">
+					<input type="hidden" id="id_slat" name="slat" value="{{ slat }}"/>
+					<div class="oldpwd">
+						{{ form.password_old.errors }}
+						{{ form.password_old }}
+					</div>
+					<div class="newpwd">
+						{{ form.password_new.errors }}
+						{{ form.password_new }}
+					</div>
+					<div class="cfmpwd">
+						{{ form.password_cfm.errors }}
+						{{ form.password_cfm }}
+					</div>
 				</div>
 			</div>
 			<div class="submit">
-				<input type="submit" value="save" />
+				<input type="submit" value="save" onclick="trans_pwd()" />
 			</div>
 		</form>
 	</div>
@@ -382,5 +407,4 @@
 		</div>
 	</div>
 </div>
-{% endif %}
 {% endblock %}

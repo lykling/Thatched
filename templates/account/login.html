@@ -11,10 +11,10 @@
 <link type="text/css" href="/static/css/account/login.css" rel="stylesheet">
 <script type="text/javascript" src="/static/js/md5.js"></script>
 <script>
-	function trans_log(){  
+	function trans_log() {  
 		document.getElementById("id_password").value=hex_md5(hex_md5(loginform.id_password.value) + loginform.id_slat.value);
 	}
-	function trans_reg(){  
+	function trans_reg() {  
 		document.getElementById("id_password_reg").value=hex_md5(registerform.id_password_reg.value);  
 		document.getElementById("id_confirm").value=hex_md5(registerform.id_confirm.value);  
 	}
@@ -57,7 +57,7 @@
 						{{ loginform.password }}
 						{{ loginform.password.errors }}
 						<!-- <input id="password" name="password" required="required" type="password" placeholder="eg. X8df!90EO" />  -->
-						{{ loginform.slat }}
+						<input type="hidden" id="id_slat" name=slat value="{{ slat }}"/>
 						</p>
 						<p class="keeplogin"> 
 						{{ loginform.loginkeeping }}

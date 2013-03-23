@@ -6,9 +6,6 @@ from ckeditor.widgets import CKEditorWidget
 
 class LoginForm(forms.ModelForm):
 	loginkeeping	= forms.BooleanField(required=False)
-	slat			= forms.CharField(widget=forms.HiddenInput(attrs={
-		'type':	'hidden',
-		}))
 	class Meta:
 		model = User
 		fields = ('username', 'password')
@@ -70,6 +67,15 @@ class ProfileForm(forms.ModelForm):
 		}))
 	intro			= forms.CharField(required=False, widget=forms.Textarea(attrs={
 		'placeholder':	'Intro',
+		}))
+	password_old	= forms.CharField(required=False, widget=forms.PasswordInput(attrs={
+		'placeholder':	'old password',
+		}))
+	password_new	= forms.CharField(required=False, widget=forms.PasswordInput(attrs={
+		'placeholder':	'new password',
+		}))
+	password_cfm	= forms.CharField(required=False, widget=forms.PasswordInput(attrs={
+		'placeholder':	'confirm password',
 		}))
 	class Meta:
 		model = UserProfile
