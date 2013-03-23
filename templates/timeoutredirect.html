@@ -1,0 +1,16 @@
+{% extends "basic.html" %}
+{% block head_ext %}
+<script type="text/javascript">
+	window.onload=setTimeout ("window.location.assign('{{ turl }}')", {{ timeout }});
+</script>
+{% endblock %}
+{% block body %}
+<div style="padding:90px 90px 90px 90px;text-align:center;">
+	<span>
+		{% for error in errors %}
+		<label style="color:#FF0000;font-size:20px;">{{ error }}<br /></label>
+		{% endfor %}
+		<label style="color:#FFFFFF;font-size:20px;">Redirecting in 1 sec...<br /></label>
+	</span>
+</div>
+{% endblock %}

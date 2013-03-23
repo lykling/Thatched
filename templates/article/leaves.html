@@ -1,0 +1,68 @@
+{% extends "basic.html" %}
+{% block head_ext %}
+<script type="text/javascript" src="/static/js/csrf.js"></script>
+<script>
+	var url="/getleaves/"
+	function getnewleaves() {
+		$.get(url, {'command':'newest', 'number':'5', 'page':'1'}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	function getnewleaves_prev() {
+		var prev = parseInt($("#currpage").attr("value")) - 1;
+		$("#leaves_contain").removeClass("toprev tonext").delay(100).queue(function(next){
+			$(this).addClass("toprev");
+			next();
+		});
+		$.get(url, {'command':'newest', 'number':'5', 'page':prev}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	function getnewleaves_next() {
+		var next = parseInt($("#currpage").attr("value")) + 1;
+		$("#leaves_contain").removeClass("tonext toprev").delay(100).queue(function(next){
+			$(this).addClass("tonext");
+			next();
+		});
+		$.get(url, {'command':'newest', 'number':'5', 'page':next}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	getnewleaves();
+</script>
+{% endblock %}
+{% block body %}
+{% if errors %}
+<ul class="">
+	{% for error in errors %}
+	<li>{{ error }}</li>
+	{% endfor %}
+</ul>
+{% else %}
+<div class="blocks">
+	<div id="leaves_newest" class="box">
+		<div class="page_prev" onclick="getnewleaves_prev()">
+			<a>&lt;</a>
+		</div>
+		<div id="leaves_contain" class="leaves_contain">
+		</div>
+		<div class="page_next" onclick="getnewleaves_next()">
+			<a>&gt;</a>
+		</div>
+	</div>
+	<div id="user" class="box">
+		<div class="userinfo">
+			<ul>
+				<li>
+				{{ loginuser.profile.nickname }}
+				</li>
+				<hr />
+				<li>
+				{{ loginuser.profile.intro }}
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+{% endif %}
+{% endblock %}

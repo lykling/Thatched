@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>{% block title %}{% endblock %}</title>
+	<link rel="stylesheet" type="text/css" href="/static/insertcode/shThemeDjango.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/insertcode/shThemeDefault.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/insertcode/shCore.css"/>
+	<link rel="stylesheet" type="text/css" href="/static/css/leaves.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/basic.css">
+	<script type="text/javascript" src="/static/jquery-ui/js/jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="/static/jquery-ui/js/jquery-ui-1.10.1.custom.js"></script>
+	<script type="text/javascript" src="/static/js/article/jquery.snow.min.js"></script>
+	<script type="text/javascript" src="/static/insertcode/shCore.js"></script>
+	<script type="text/javascript" src="/static/insertcode/shBrushes.js"></script>
+	{% block head_ext %}
+	{% endblock %}
+</head>
+<body class=""> 
+	<div class="basic">
+		<div class="bar_top">
+			<ul id="menu" class="menu">
+				<li class="home"><a href="/">Thatched</a></li>
+				<li class="leaves"><a href="/leaves/">leaves</a></li>
+				<li class="user">
+				{% if loginuser %}
+				<a>{{ loginuser.profile.nickname }}</a>
+				<ul>
+					<li>
+					<a href="/profile/">Edit Profile</a>
+					<a href="/writting/">Srpout</a>
+					<hr />
+					<a href="/settings/">Settings</a>
+					<a href="/logout/">Sign Out</a>
+					</li>
+				</ul>
+				{% else %}
+				<a href="/login/">Sign In</a>
+				{% endif %}
+				</li>
+			</ul>
+		</div>
+		<div class="container">
+		{% block body %}
+		{% endblock %}
+		</div>
+		<div class="bar_bottom">
+			<footer>
+				Copyright &copy; 2013, NO.39  All rights reserved.
+			</footer>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function pastepic() {
+			var c=document.getElementById("basic_canvas");
+			var cxt=c.getContext('2d');
+			var img=new Image();
+			img.src="/static/images/backgrounds.jpg";
+			cxt.drawImage(img,0,0);
+		}
+		function snowfall() {
+			$.fn.snow({
+				minSize: 5,
+				maxSize: 20,
+				newOn: 200,
+				flakeColor: '#EFEFEF'
+			})
+		}
+		<!-- $(snowfall()); -->
+	</script>
+	<script type="text/javascript">
+		SyntaxHighlighter.config.clipboardSwf = '/static/insertcode/clipboard.swf';
+		SyntaxHighlighter.all();
+	</script>
+	{% block scripts %}
+	{% endblock %}
+</body>
+</html>

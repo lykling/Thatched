@@ -1,0 +1,31 @@
+{% extends "basic.html" %}
+{% block head_ext %}
+<script type="text/javascript" src="/static/js/csrf.js"></script>
+<script>
+	var url="/getleaves/"
+	function getnewleaves() {
+		$.get(url, {'command':'newest', 'number':'10'}, function(data) {
+			$("#leaves_newest").html(data);
+		});
+	}
+	getnewleaves();
+</script>
+{% endblock %}
+{% block body %}
+			<br />
+			<br />
+			{% if errors %}
+			<ul class="errorlist">
+				{% for error in errors %}
+				<li>{{ error }}</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<div class="row-fluid span10">
+				<div id="leaves_newest" class="span8 well">
+				</div>
+				<div class="span2 well">
+				</div>
+			</div>
+			{% endif %}
+{% endblock %}

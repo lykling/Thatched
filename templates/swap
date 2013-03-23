@@ -1,0 +1,22 @@
+		.bar_top_list {
+			margin:					6px;
+			padding:				0% 10% 0% 10%;
+		}
+		.bar_top_list .home,
+		.bar_top_list .leaves,
+		.bar_top_list .user {
+			padding:				0px 10px 0px 10px;
+			display:				block;
+			float:					left;
+			list-style-type:		none;
+		}
+		.bar_top_list .home {
+			font-size:				20px;
+		}
+		.bar_top_list .user {
+			padding-top:			0.1%;
+			float:					right;
+		}
+		.bar_top_list .leaves {
+			padding-top:			0.1%;
+		}

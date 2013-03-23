@@ -1,0 +1,16 @@
+<ul class="leaves_list">
+	<input id="currpage" type="hidden" name="page" value="{{page}}">
+	{% for item in items %}
+	<li class="">
+	<div class="leaves_head">
+		<a class="title" href="/leaves/{{ item.articleid }}/">{{ item.title|title }}</a>
+		<a class="datetime" >{{ item.postime|date }}</a>
+		<a class="author" href="/profile/{{ item.author.uid}}/">@{{ item.author.profile.nickname }}</a>
+	</div>
+	<div class="leaves_content">
+		<!-- <a class="" href="/leaves/{{ item.articleid }}/">{{ item.content|striptags|cut:"&nbsp;"|center:"1"|truncatewords:"30"|escape }}</a> -->
+		<a class="" href="/leaves/{{ item.articleid }}/">{{ item.content|striptags|cut:"&nbsp;"|center:"1"|truncatewords:"30"|escape }}</a>
+	</div>
+	</li>
+	{% endfor %}
+</ul>

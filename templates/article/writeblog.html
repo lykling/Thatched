@@ -1,0 +1,32 @@
+{% extends "basic.html" %}
+{% block title %}Writting{% endblock %}
+{% block head_ext %}
+<link rel="stylesheet" type="text/css" href="/static/css/article/writting.css">
+<script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
+{% endblock %}
+{% block body %}
+<div class="write_panel">
+	<form class="write_form" id="id_blogform" action="" method="post">
+		{% csrf_token %}
+		<div class="title">
+			{{ form.title }}
+			{{ form.title.errors }}
+		</div>
+		<div class="subtitle">
+			{{ form.subtitle }}
+		</div>
+		<div class="content">
+			{% autoescape off %}
+			{{ form.content }}
+			{% endautoescape %}
+		</div>
+		<div class="classid">
+			{{ form.classid }}
+		</div>
+		<div class="submit">
+			<input class="" type="submit" value="post">
+		</div>
+	</form>
+<!-- <textarea style="padding:40px;width:800px;height:500px;" class="ckeditor" rows="90" cols="60" name="blogcontent"  ></textarea> -->
+</div>
+{% endblock %}
