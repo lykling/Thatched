@@ -49,11 +49,15 @@ def login(request):
 				if password != confirm:
 					errors.append(u"Please check that your passwords match and try again.")
 				if not errors:
+					if request.META.has_key('HTTP_X_FORWARDED_FOR'):  
+						remoteip =  request.META['HTTP_X_FORWARDED_FOR']  
+					else:  
+						remoteip = request.META['REMOTE_ADDR'] 
 					user = User.objects.create(
 							username=username,
 							password=password,
 							email = email,
-							profile = UserProfile.objects.create(nickname=username),
+							profile = UserProfile.objects.create(nickname=username, regip=remoteip),
 					)
 					Classification.objects.create(creator=user,classname='unclassified')
 					request.session['user'] = user
