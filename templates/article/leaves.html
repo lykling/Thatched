@@ -28,6 +28,27 @@
 			$("#leaves_contain").html(data);
 		});
 	}
+	function getElementsByClassName(className,ele,tagName){
+		var a = [];
+		var eles = null;
+		if(ele) {
+			if(tagName) {
+				eles = ele.getElementsByTagName(tagName)
+			}
+			else {
+				eles = ele.getElementsByTagName('*')
+			}
+		}
+		else {
+			eles = document.getElementsByTagName('*');
+		}
+		for(var i = 0; i < eles.length; i ++){
+			if(eles[i].className.search(new RegExp("\\b" + className + "\\b")) != -1){
+				a.push(eles.item(i));
+			}
+		}
+		return a
+	}
 	getnewleaves();
 </script>
 {% endblock %}

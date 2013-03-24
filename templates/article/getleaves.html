@@ -1,7 +1,7 @@
 <ul class="leaves_list">
 	<input id="currpage" type="hidden" name="page" value="{{page}}">
 	{% for item in items %}
-	<li class="">
+	<li class="list-item">
 	<div class="leaves_head">
 		<a class="title" href="/leaves/{{ item.articleid }}/">{{ item.title|title }}</a>
 		<a class="datetime" >{{ item.postime|date }}</a>
