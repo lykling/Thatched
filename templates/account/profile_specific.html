@@ -3,32 +3,33 @@
 <script type="text/javascript" src="/static/js/csrf.js"></script>
 <script>
 	var url="/getleaves/"
-	function getnewleaves() {
-		$.get(url, {'command':'newest', 'number':'5', 'page':'1'}, function(data) {
+	var uid="{{ targetuser.uid }}";
+	function getuserleaves() {
+		$.get(url, {'command':'userleaves', 'number':'5', 'page':'1', 'uid':uid}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
-	function getnewleaves_prev() {
+	function getuserleaves_prev() {
 		var prev = parseInt($("#currpage").attr("value")) - 1;
 		$("#leaves_contain").removeClass("toprev tonext").delay(100).queue(function(next){
 			$(this).addClass("toprev");
 			next();
 		});
-		$.get(url, {'command':'newest', 'number':'5', 'page':prev}, function(data) {
+		$.get(url, {'command':'userleaves', 'number':'5', 'page':prev, 'uid':uid}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
-	function getnewleaves_next() {
+	function getuserleaves_next() {
 		var next = parseInt($("#currpage").attr("value")) + 1;
 		$("#leaves_contain").removeClass("tonext toprev").delay(100).queue(function(next){
 			$(this).addClass("tonext");
 			next();
 		});
-		$.get(url, {'command':'newest', 'number':'5', 'page':next}, function(data) {
+		$.get(url, {'command':'userleaves', 'number':'5', 'page':next, 'uid':uid}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
-	getnewleaves();
+	getuserleaves();
 </script>
 {% endblock %}
 {% block body %}
@@ -41,24 +42,34 @@
 {% else %}
 <div class="blocks">
 	<div id="leaves_newest" class="box">
-		<div class="page_prev" onclick="getnewleaves_prev()">
+		<div class="page_prev" onclick="getuserleaves_prev()">
 			<a>&lt;</a>
 		</div>
 		<div id="leaves_contain" class="leaves_contain">
 		</div>
-		<div class="page_next" onclick="getnewleaves_next()">
+		<div class="page_next" onclick="getuserleaves_next()">
 			<a>&gt;</a>
 		</div>
 	</div>
 	<div id="user" class="box">
 		<div class="userinfo">
-			<ul>
-				<li>
-				{{ loginuser.profile.nickname }}
+			<ul class="infolist">
+				<li class="avatar">
+				<img src="/static/media/avatar/{{ targetuser.uid }}.png.p/"></img>
+				</li>
+				<li class="uid"> 
+				uid:{{ targetuser.profile.uid }}
+				</li>
+				<li class="nickname">
+				nickname:<a href="/profile/{{ targetuser.uid }}/">{{ targetuser.profile.nickname }}</a>
 				</li>
 				<hr />
-				<li>
-				{{ loginuser.profile.intro }}
+				<li class=""> 
+				leaves:{{ targetuser.article_set.all.count }}
+				</li>
+				<hr />
+				<li class="intro">
+				intro:{{ targetuser.profile.intro }}
 				</li>
 			</ul>
 		</div>

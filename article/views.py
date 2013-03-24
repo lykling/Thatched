@@ -67,23 +67,31 @@ def leaves(request, articleid=0):
 	},context_instance=RequestContext(request))
 
 def getleaves(request):
+	errors = []
 	if request.method == "GET":
 		command	= request.GET.get('command', '')
 		number	= request.GET.get('number', '1')
 		page	= request.GET.get('page', '1')
+		uid		= request.GET.get('uid', '1')
 		number	= int(number)
 		page	= int(page)
-		items = Article.objects.all()
+		uid		= int(uid)
+		if command == "newest":
+			items = Article.objects.all()
+		elif command == "userleaves":
+			try:
+				user	= User.objects.get(uid=uid)
+			except User.DoesNotExist:
+				errors.append(u'user does not exist.')
+			else:
+				items = user.article_set.all()
 		if number <= 0:
 			number = 1
 		if (page - 1) * number > items.count() - 1:
 			page = 1;
 		if (page - 1) * number < 0:
 			page = (items.count() - 1) / number + 1
-		if command == "newest":
-			return render_to_response('article/getleaves.html', {
-				'items':	Article.objects.all()[number * (page - 1):number * page],
-				'page':		page,
-			},context_instance=RequestContext(request))
 	return render_to_response('article/getleaves.html', {
+		'items':	items[number * (page - 1):number * page],
+		'page':		page,
 	},context_instance=RequestContext(request))

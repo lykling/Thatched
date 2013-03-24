@@ -103,7 +103,11 @@ def profile(request, uid):
 		})
 	if uid:
 		user = User.objects.get(uid=uid)
-		pass
+		return render_to_response('account/profile_specific.html', {
+			'errors':		errors,
+			'loginuser':	loginuser,
+			'targetuser':	user,
+		},context_instance=RequestContext(request))
 	if request.method == "POST":
 		form = ProfileForm(request.POST, request.FILES)
 		if form.is_valid():

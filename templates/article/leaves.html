@@ -74,12 +74,22 @@
 	<div id="user" class="box">
 		<div class="userinfo">
 			<ul>
-				<li>
-				{{ loginuser.profile.nickname }}
+				<li class="avatar">
+				<img src="/static/media/avatar/{{ loginuser.uid }}.png.p/"></img>
+				</li>
+				<li class="uid"> 
+				uid:{{ loginuser.profile.uid }}
+				</li>
+				<li class="nickname">
+				nickname:<a href="/profile/{{ loginuser.uid }}/">{{ targetuser.profile.nickname }}</a>
 				</li>
 				<hr />
-				<li>
-				{{ loginuser.profile.intro }}
+				<li class=""> 
+				leaves:{{ loginuser.article_set.all.count }}
+				</li>
+				<hr />
+				<li class="intro">
+				intro:{{ loginuser.profile.intro }}
 				</li>
 			</ul>
 		</div>
