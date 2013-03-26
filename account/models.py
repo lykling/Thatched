@@ -6,7 +6,6 @@ from md5 import md5
 
 class UserProfile(models.Model):
 	uid				= models.AutoField(primary_key=True)
-	avatar			= models.ImageField(upload_to="avatar",null=True,blank=True)
 	nickname		= models.CharField(max_length=16, null=True)
 	realname		= models.CharField(max_length=39, null=True)
 	sns				= models.URLField(null=True)

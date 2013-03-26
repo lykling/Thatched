@@ -91,3 +91,24 @@ def CropImage(image, box, scale=None, path=None):
 	if path:
 		img.save(path,image.format)
 	return img
+
+def GetPic(request):
+	uid = request.GET.get('uid', 0)
+	size = request.GET.get('size', 'small')
+	path = '/var/www/Thatched/media/avatar'
+	if size == "picked":
+		filename = "%s.png.p" % (uid)
+	elif size == "middle":
+		filename = "%s.png.m" % (uid)
+	elif size == "big":
+		filename = "%s.png.b" % (uid)
+	else:
+		filename = "%s.png.s" % (uid)
+	if os.path.exists(u'%s/%s' % (path, filename)):
+		image = open(u'%s/%s' % (path, filename), 'r')
+		Cimage = Image.open(u'%s/%s' % (path, filename))
+		return HttpResponse(image, mimetype=Cimage.format)
+	else:
+		image = open(u'%s/%s' % (path, 'default.png.p'), 'r')
+		Cimage = Image.open(u'%s/%s' % (path, 'default.png.p'))
+		return HttpResponse(image, mimetype=Cimage.format)

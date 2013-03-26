@@ -6,6 +6,11 @@
 {% endblock %}
 {% block body %}
 <div class="write_panel">
+	<ul class="errorlist">
+		{% for error in errors %}
+		<li>{{ error }}</li>
+		{% endfor %}
+	</ul>
 	<form class="write_form" id="id_blogform" action="" method="post">
 		{% csrf_token %}
 		<div class="title">
@@ -24,6 +29,7 @@
 			{{ form.classid }}
 		</div>
 		<div class="submit">
+			<input type="hidden" name="command" value="{{ command }}">
 			<input class="" type="submit" value="post">
 		</div>
 	</form>

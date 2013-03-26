@@ -92,7 +92,6 @@
 .blocks > div:first-child {
 	width:						58%;
 	height:						100%;
-	min-height:					839px;
 	padding:					10px 5px 10px 1px;
 	display:					block;
 	float:						left;

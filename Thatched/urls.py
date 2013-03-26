@@ -38,3 +38,7 @@ urlpatterns += patterns('account.views',
 	(r'^profile/$|^profile/(\d{1,8})/$', LoginRequired(profile)),
 )
 
+urlpatterns += patterns('account.functions',
+	(r'^getpic/$', GetPic),
+)
+

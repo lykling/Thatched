@@ -11,29 +11,53 @@ def index(request):
 
 def writeblog(request):
 	loginuser = LoginUser(request)
+	errors = []
 	form = BlogPostForm()
 	form.base_fields['classid'].choices = loginuser.classelector()
 	form.fields['classid'].choices = loginuser.classelector()
+	command = "create"
 	if request.method == "POST":
 		form = BlogPostForm(request.POST)
 		a = form.fields
 		if form.is_valid():
-			title = form.cleaned_data['title']
-			subtitle = form.cleaned_data['subtitle']
-			content = form.cleaned_data['content']
-			classid = int(form.cleaned_data['classid'])
-			article = Article.objects.create(
-				title			= title,
-				subtitle		= subtitle,
-				content			= content,
-				author			= loginuser,
-				classification	= Classification.objects.get(classid=classid),
-				postime			= datetime.datetime.utcnow().replace(tzinfo=pytz.utc),
-			)
-			return HttpResponseRedirect("/leaves/%d/" % (article.articleid))
+			title		= form.cleaned_data['title']
+			subtitle	= form.cleaned_data['subtitle']
+			content		= form.cleaned_data['content']
+			classid		= int(form.cleaned_data['classid'])
+			articleid	= request.POST.get('articleid', '')
+			command		= request.POST.get('command', '')
+			if articleid and command == "modify":
+				try:
+					article = Article.objects.get(articleid=articleid)
+				except Article.DoesNotExist:
+					errors.append(u'article does not exist.')
+				else:
+					if article.author != loginuser:
+						errors.append(u'you can\'t edit the article post by others.')
+					else:
+						article.title			= title
+						article.subtitle		= subtitle
+						article.content			= content
+						article.classification	= Classification.objects.get(classid=classid)
+						article.modifytime		= datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
+						article.save()
+						return HttpResponseRedirect("/leaves/%d/" % (article.articleid))
+			elif command == "create":
+				article = Article.objects.create(
+						title			= title,
+						subtitle		= subtitle,
+						content			= content,
+						author			= loginuser,
+						classification	= Classification.objects.get(classid=classid),
+						postime			= datetime.datetime.utcnow().replace(tzinfo=pytz.utc),
+						modifytime		= datetime.datetime.utcnow().replace(tzinfo=pytz.utc),
+				)
+				return HttpResponseRedirect("/leaves/%d/" % (article.articleid))
 	return render_to_response('article/writeblog.html', {
-		'loginuser': loginuser,
-		'form': form,	
+		'errors':		errors,
+		'loginuser':	loginuser,
+		'form':			form,	
+		'command':		command,
 	},context_instance=RequestContext(request))
 
 def leaves(request, articleid=0):

@@ -42,48 +42,48 @@
 	.writting {
 		position:				relative;
 	}
-@keyframes form_leave {
-	0%							{opacity:1;display:block;transform:scale(1.0);}
-	100%						{opacity:0;display:none;transform:scale(0.0);}
-}
-@-moz-keyframes form_leave {
-	0%							{opacity:1;display:block;-moz-transform:scale(1.0);}
-	100%						{opacity:0;display:none;-moz-transform:scale(0.0);}
-}
-@-webkit-keyframes form_leave {
-	0%							{opacity:1;display:block;-webkit-transform:scale(1.0);}
-	100%						{opacity:0;display:none;-webkit-transform:scale(0.0);}
-}
-@-o-keyframes form_leave {
-	0%							{opacity:1;display:block;-o-transform:scale(1.0);}
-	100%						{opacity:0;display:none;-o-transform:scale(0.0);}
-}
-@-moz-keyframes form_come {
-	0%							{opacity:0;display:none;-moz-transform:scale(0.0);}
-	100%						{opacity:1;display:block;-moz-transform:scale(1.0);}
-}
-@-webkit-keyframes form_come {
-	0%							{opacity:0;display:none;-webkit-transform:scale(0.0);}
-	100%						{opacity:1;display:block;-webkit-transform:scale(1.0);}
-}
-@-o-keyframes form_come {
-	0%							{opacity:0;display:none;-o-transform:scale(0.0);}
-	100%						{opacity:1;display:block;-o-transform:scale(1.0);}
-}
-.leaving {
-	animation:					form_leave 1s linear 0s 1 normal;
-	-webkit-animation:			form_leave 1s linear 0s 1 normal;
-	-moz-animation:				form_leave 1s linear 0s 1 normal;
-	-o-animation:				form_leave 1s linear 0s 1 normal;
-	display:					none;
-}
-.comming {
-	animation:					form_come 1s linear 0s 1 normal;
-	-webkit-animation:			form_come 1s linear 0s 1 normal;
-	-moz-animation:				form_come 1s linear 0s 1 normal;
-	-o-animation:				form_come 1s linear 0s 1 normal;
-	display:					block;
-}
+	@keyframes form_leave {
+		0%							{opacity:1;display:block;transform:scale(1.0);}
+		100%						{opacity:0;display:none;transform:scale(0.0);}
+	}
+	@-moz-keyframes form_leave {
+		0%							{opacity:1;display:block;-moz-transform:scale(1.0);}
+		100%						{opacity:0;display:none;-moz-transform:scale(0.0);}
+	}
+	@-webkit-keyframes form_leave {
+		0%							{opacity:1;display:block;-webkit-transform:scale(1.0);}
+		100%						{opacity:0;display:none;-webkit-transform:scale(0.0);}
+	}
+	@-o-keyframes form_leave {
+		0%							{opacity:1;display:block;-o-transform:scale(1.0);}
+		100%						{opacity:0;display:none;-o-transform:scale(0.0);}
+	}
+	@-moz-keyframes form_come {
+		0%							{opacity:0;display:none;-moz-transform:scale(0.0);}
+		100%						{opacity:1;display:block;-moz-transform:scale(1.0);}
+	}
+	@-webkit-keyframes form_come {
+		0%							{opacity:0;display:none;-webkit-transform:scale(0.0);}
+		100%						{opacity:1;display:block;-webkit-transform:scale(1.0);}
+	}
+	@-o-keyframes form_come {
+		0%							{opacity:0;display:none;-o-transform:scale(0.0);}
+		100%						{opacity:1;display:block;-o-transform:scale(1.0);}
+	}
+	.leaving {
+		animation:					form_leave 1s linear 0s 1 normal;
+		-webkit-animation:			form_leave 1s linear 0s 1 normal;
+		-moz-animation:				form_leave 1s linear 0s 1 normal;
+		-o-animation:				form_leave 1s linear 0s 1 normal;
+		display:					none;
+	}
+	.comming {
+		animation:					form_come 1s linear 0s 1 normal;
+		-webkit-animation:			form_come 1s linear 0s 1 normal;
+		-moz-animation:				form_come 1s linear 0s 1 normal;
+		-o-animation:				form_come 1s linear 0s 1 normal;
+		display:					block;
+	}
 </style>
 <script>
 	function edit_or_show () {
@@ -116,21 +116,30 @@
 <script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
 {% endblock %}
 {% block body %}
-	<div class="leaves_panel">
-		<div class="leaf">
-			<div class="content">
-				<div class="toolbar">
-					<ul class="toolbar_menu">
-						<li class="edit" onclick="edit_or_show()"><a id="edit" name="edit">edit</a></li>
+<div class="leaves_panel">
+	<div class="leaf">
+		<div class="content">
+			{% if article in loginuser.article_set.all %}
+			<div class="toolbar">
+				<ul class="toolbar_menu">
+					<li class="edit" onclick="edit_or_show()"><a id="edit" name="edit">edit</a></li>
+					<li class="classifylist">
+					<a id="classify" name="classify">classification</a>
+					<ul class="">
+						<li><a>move to</a></li>
+						<li><a>create new</a></li>
 					</ul>
-				</div>
-				<div class="forms">
+					</li>
+				</ul>
+			</div>
+			{% endif %}
+			<div class="forms">
 				<div id="article" class="article comming">
 					<article>
 						<a href="/leaves/{{ article.articleid }}/"><h2>{{ article.title|title }}</h2></a>
 						<h3 id="subtitle">{{ article.subtitle }}</h3>
 						<p id="classification">Classification:{{ article.classification }} | visit:{{ article.visit }}</p>
-						Author:{{ article.author }} | Date:{{ article.postime }}
+						Author:{{ article.author }} | Date:{{ article.postime }} | Lastupdate:{{ article.modifytime }}
 					</article>
 					<div class="">
 						{% autoescape off %}
@@ -138,6 +147,7 @@
 						{% endautoescape %}
 					</div>
 				</div>
+				{% if article in loginuser.article_set.all %}
 				<div id="writting" class="writting leaving">
 					<form class="write_form" id="id_blogform" action="/writting/" method="post">
 						{% csrf_token %}
@@ -157,12 +167,15 @@
 							{{ form.classid }}
 						</div>
 						<div class="submit">
+							<input type="hidden" name="articleid" value="{{ article.articleid }}">
+							<input type="hidden" name="command" value="modify">
 							<input class="" type="submit" value="post">
 						</div>
 					</form>
 				</div>
-				</div>
+				{% endif %}
 			</div>
 		</div>
 	</div>
+</div>
 {% endblock %}

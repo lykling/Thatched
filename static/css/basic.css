@@ -17,7 +17,7 @@ html,body {
 .basic {
 	width:						100%;
 	height:						100%;
-	min-height:					600px;
+	min-height:					500px;
 	background:					url('/static/images/backgrounds2.jpg');
 	background-attachment:		fixed;
 	background-clip:			content-box;
@@ -30,7 +30,7 @@ html,body {
 	margin-right:			auto;
 	width:					839px;
 	height:					100%;
-	min-height:				939px;
+	min-height:				769px;
 	background-color:		rgba(255,255,255,0.3);
 	background-clip:		content-box;
 }
@@ -232,11 +232,11 @@ html,body {
 	text-decoration:		none;
 	text-shadow:			0px 1px 0px #000;
 }
-.toolbar_menu li:hover {
+.toolbar_menu > li:hover {
 	color:					#999999;
 	font-size:				15px;
 }
-.toolbar_menu li:hover > a {
+.toolbar_menu >li:hover > a {
 	color:					#999999;
 	font-size:				15px;
 }
@@ -256,24 +256,24 @@ html,body {
 	top:					35px;
 	left:					0px;
 	z-index:				999;
-	background:				#444;
-	background:				-moz-linear-gradient(#444, #111);
-	background:				-webkit-gradient(linear,left bottom,left top,color-stop(0, #111),color-stop(1, #444));
-	background:				-webkit-linear-gradient(#444, #111);
-	background:				-o-linear-gradient(#444, #111);
-	background:				-ms-linear-gradient(#444, #111);
-	background:				linear-gradient(#444, #111);
+	background:				rgba(255,255,255,1.0);
+	background:				-moz-linear-gradient(#fff, #eee);
+	background:				-webkit-gradient(linear,left bottom,left top,color-stop(0, #eee),color-stop(1, #fff));
+	background:				-webkit-linear-gradient(#fff, #eee);
+	background:				-o-linear-gradient(#fff, #eee);
+	background:				-ms-linear-gradient(#fff, #eee);
+	background:				linear-gradient(#fff, #eee);
 	-moz-border-radius:		5px;
 	border-radius:			5px;
+	-moz-box-shadow:		0px 1px 8px #111111, 0px 2px 0px #777777;
+	-webkit-box-shadow:		0px 1px 8px #111111, 0px 2px 0px #777777;
+	box-shadow:				0px 1px 8px #111111, 0px 2px 0px #777777;
 }
 .toolbar_menu ul li {
 	float:					none;
 	margin:					0px;
 	padding:				0px;
 	display:				block;
-	-moz-box-shadow:		0px 1px 0px #111111, 0px 2px 0px #777777;
-	-webkit-box-shadow:		0px 1px 0px #111111, 0px 2px 0px #777777;
-	box-shadow:				0px 1px 0px #111111, 0px 2px 0px #777777;
 }
 .toolbar_menu li ul li:last-child {
 	-moz-box-shadow:		none;

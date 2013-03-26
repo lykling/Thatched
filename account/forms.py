@@ -56,6 +56,7 @@ class RegisterForm(forms.ModelForm):
 				}
 
 class ProfileForm(forms.ModelForm):
+	avatar			= forms.ImageField(required=False)
 	nickname		= forms.CharField(required=False, widget=forms.TextInput(attrs={
 		'placeholder':	'Nickname',
 		}))
@@ -79,4 +80,4 @@ class ProfileForm(forms.ModelForm):
 		}))
 	class Meta:
 		model = UserProfile
-		fields = ('nickname', 'realname', 'sns', 'intro','avatar')
+		fields = ('nickname', 'realname', 'sns', 'intro',)

@@ -24,6 +24,7 @@ class Article(models.Model):
 	classification	= models.ForeignKey(Classification)
 	author			= models.ForeignKey(User)
 	postime			= models.DateTimeField()
+	modifytime		= models.DateTimeField()
 	content			= models.TextField(max_length=32767)
 	class Meta:
 		ordering	= ['-postime']

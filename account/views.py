@@ -120,7 +120,7 @@ def profile(request, uid):
 				for chunk in img.chunks():
 					parser.feed(chunk)
 				avatar = parser.close()
-				path = "/var/www/blog/static/media/avatar"
+				path = "/var/www/Thatched/media/avatar"
 				filename = "%d.png" % (loginuser.uid)
 				avatar_s = Thumbnail(avatar, 120, 120, "%s/%s.s" % (path, filename))
 				avatar_m = Thumbnail(avatar, 600, 600, "%s/%s.m" % (path, filename))
@@ -131,7 +131,6 @@ def profile(request, uid):
 				else:
 					box = (0, (tph - tpw) / 2, tpw, (tph + tpw) / 2)
 				avatar_p = CropImage(avatar, box, 120, "%s/%s.p" % (path, filename))
-				loginuser.profile.avatar		= img
 			pwd_old = form.cleaned_data['password_old']
 			pwd_new = form.cleaned_data['password_new']
 			pwd_cfm = form.cleaned_data['password_cfm']

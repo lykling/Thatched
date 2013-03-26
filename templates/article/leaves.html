@@ -53,15 +53,15 @@
 </script>
 {% endblock %}
 {% block body %}
-{% if errors %}
-<ul class="">
-	{% for error in errors %}
-	<li>{{ error }}</li>
-	{% endfor %}
-</ul>
-{% else %}
 <div class="blocks">
 	<div id="leaves_newest" class="box">
+		{% if errors %}
+		<ul class="errorlist">
+			{% for error in errors %}
+			<li>{{ error }}</li>
+			{% endfor %}
+		</ul>
+		{% else %}
 		<div class="page_prev" onclick="getnewleaves_prev()">
 			<a>&lt;</a>
 		</div>
@@ -70,12 +70,13 @@
 		<div class="page_next" onclick="getnewleaves_next()">
 			<a>&gt;</a>
 		</div>
+		{% endif %}
 	</div>
 	<div id="user" class="box">
 		<div class="userinfo">
 			<ul>
 				<li class="avatar">
-				<a href="/profile/{{ loginuser.uid }}/"><img src="/static/media/avatar/{{ loginuser.uid }}.png.p/"></img></a>
+				<a href="/profile/{{ loginuser.uid }}/"><img src="/getpic/?uid={{ loginuser.uid }}&size=picked"></img></a>
 				</li>
 				<li class="uid"> 
 				uid:{{ loginuser.profile.uid }}
@@ -95,5 +96,4 @@
 		</div>
 	</div>
 </div>
-{% endif %}
 {% endblock %}

@@ -23,7 +23,7 @@
 				<li class="leaves"><a href="/leaves/">leaves</a></li>
 				<li class="user">
 				{% if loginuser %}
-				<a>{{ loginuser.profile.nickname }}</a>
+				<a href="/profile/{{ loginuser.uid }}/">{{ loginuser.profile.nickname }}</a>
 				<ul>
 					<li>
 					<a href="/profile/">Edit Profile</a>
