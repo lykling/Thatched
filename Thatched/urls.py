@@ -25,6 +25,7 @@ urlpatterns += patterns('article.views',
 	(r'^$|^index/$', index),
 	(r'^writting/$', LoginRequired(writeblog)),
 	(r'^leaves/$|^leaves/(\d{1,8})/$', leaves),
+	(r'^getclassform/$', getclassform),
 )
 
 urlpatterns += patterns('editor.views',

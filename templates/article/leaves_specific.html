@@ -85,6 +85,7 @@
 		display:					block;
 	}
 </style>
+<script type="text/javascript" src="/static/js/csrf.js"></script>
 <script>
 	function edit_or_show () {
 		var command=$("#edit").html();
@@ -111,6 +112,81 @@
 			});
 		}
 	}
+	function getclassform(name, method) {
+		var url = "/getclassform/"
+		if (method == "get") {
+			$.get(url, {'form_name':name}, function(data) {
+				if (name == 'create') {
+					$("#classform_create").html(data);
+					$("#classform_create").dialog("open");
+				}
+				if (name == 'moveto') {
+					$("#classform_moveto").html(data);
+					$("#classform_moveto").dialog("open");
+				}
+			});
+		}
+		else if (method == "post") {
+			var classid = $("#id_classify").val();
+			var classname = $("#id_classname").val();
+			var articleid = $("#articleid").val();
+			$.post(url, {'form_name':name, 'classid':classid, 'classname':classname, 'articleid':articleid}, function(data) {
+				if (name == "create") {
+					$("#classform_create").html(data);
+					$("#classform_create").dialog("open");
+					refreshPage(location.href);
+				}
+				if (name == "moveto") {
+					$("#classform_moveto").html(data);
+					$("#classform_moveto").dialog("open");
+					refreshPage(location.href);
+				}
+			});
+		}
+	}
+	var refreshPage = function(url) {
+		var flag = $("#flag").val();
+		if (flag == 1) {
+			setTimeout("window.location.assign('" + url + "')", 500);
+		}
+	}
+	function handler() {
+		$("#class_create").click(function() {getclassform('create', 'get')});
+		$("#class_moveto").click(function() {getclassform('moveto', 'get')});
+		$("#classform_create").dialog({
+			autoOpen: false,
+			modal:true,
+			resizable:false,
+			buttons:{
+				"create":function() {
+					getclassform('create', 'post');
+				},
+				"cancle":function() {
+					$(this).dialog("close");
+				}
+			},
+			close: function() {
+				$("#classform_create").empty()
+			}
+		});
+		$("#classform_moveto").dialog({
+			autoOpen: false,
+			modal:true,
+			resizable:false,
+			buttons:{
+				"moveto":function() {
+					getclassform('moveto', 'post');
+				},
+				"cancle":function() {
+					$(this).dialog("close");
+				}
+			},
+			close: function() {
+				$("#classform_moveto").empty()
+			}
+		});
+	}
+	$(document).ready(handler);
 </script>
 <link rel="stylesheet" type="text/css" href="/static/css/article/writting.css">
 <script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
@@ -126,8 +202,8 @@
 					<li class="classifylist">
 					<a id="classify" name="classify">classification</a>
 					<ul class="">
-						<li><a>move to</a></li>
-						<li><a>create new</a></li>
+						<li id="class_moveto"><a>move to</a></li>
+						<li id="class_create"><a>create new</a></li>
 					</ul>
 					</li>
 				</ul>
@@ -167,11 +243,15 @@
 							{{ form.classid }}
 						</div>
 						<div class="submit">
-							<input type="hidden" name="articleid" value="{{ article.articleid }}">
-							<input type="hidden" name="command" value="modify">
+							<input id="articleid" type="hidden" name="articleid" value="{{ article.articleid }}">
+							<input id="command" type="hidden" name="command" value="modify">
 							<input class="" type="submit" value="post">
 						</div>
 					</form>
+				</div>
+				<div id="classform_create">
+				</div>
+				<div id="classform_moveto">
 				</div>
 				{% endif %}
 			</div>

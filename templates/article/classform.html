@@ -1,0 +1,26 @@
+{% if errors %}
+<ul class="errorlist">
+	{% for error in errors %}
+	<li>{{ error }}</li>
+	{% endfor %}
+</ul>
+<input id="flag" value="0" style="display:none"></input>
+{% else %}
+<ul class="msglist">
+	{% for msg in msgs %}
+	<li>{{ msg }}</li>
+	{% endfor %}
+</ul>
+<input id="flag" value="1" style="display:none"></input>
+{% endif %}
+{% if formname == "moveto" %}
+<select name="classify" id="id_classify">
+	{% for opt in loginuser.classelector %}
+	<option value="{{ opt.0 }}">{{ opt.1 }}</option>
+	{% endfor %}
+</select>
+{% else %}
+{% if formname == "create" %}
+<input name="classname" id="id_classname"/>
+{% endif %}
+{% endif %}

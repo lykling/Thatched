@@ -119,3 +119,49 @@ def getleaves(request):
 		'items':	items[number * (page - 1):number * page],
 		'page':		page,
 	},context_instance=RequestContext(request))
+
+def getclassform(request):
+	errors = []
+	msgs = []
+	loginuser = LoginUser(request)
+	if request.method == "GET":
+		formname = request.GET.get('form_name', '')
+	if request.method == "POST":
+		formname	= request.POST.get('form_name', '')
+		classname	= request.POST.get('classname', '')
+		classid		= request.POST.get('classid', '')
+		articleid	= request.POST.get('articleid', '')
+		if formname == "create":
+			if CharValid(classname):
+				Classification.objects.create(
+					creator		= loginuser,
+					classname	= classname,
+				)
+				msgs.append(u'classification create successfuly.')
+			else:
+				errors.append(u'classname invalid.')
+		elif formname == "moveto":
+			if articleid:
+				try:
+					article = Article.objects.get(articleid=articleid)
+				except Article.DoesNotExist:
+					errors.append(u'article does not exist.')
+				else:
+					if article.author != loginuser:
+						errors.append(u'you can\'t edit the article post by others.')
+					else:
+						try:
+							article.classification = Classification.objects.get(classid=classid)
+						except Classification.DoesNotExist:
+							errors.append(u'class does not exist.')
+						else:
+							article.save()
+							msgs.append(u'classification change successfuly.')
+			else:
+				errors.append(u'article not found.')
+	return render_to_response('article/classform.html', {
+		'errors':				errors,
+		'msgs':					msgs,
+		'loginuser':			loginuser,
+		'formname':				formname,
+	},context_instance=RequestContext(request))
