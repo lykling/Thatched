@@ -1,4 +1,5 @@
 {% extends "basic.html" %}
+{% load gravatar %}
 {% block head_ext %}
 <script type="text/javascript" src="/static/js/csrf.js"></script>
 <script>
@@ -31,6 +32,8 @@
 	}
 	getuserleaves();
 </script>
+<style>
+</style>
 {% endblock %}
 {% block body %}
 {% if errors %}
@@ -55,6 +58,7 @@
 		<div class="userinfo">
 			<ul class="infolist">
 				<li class="avatar">
+				<!-- <a class="gravatar" href="http://en.gravatar.com/emails" title="change avatar on gravatat.com"><img src="{% gravatar_url targetuser.email %}" alt=""/></a> -->
 				<a href="/profile/{{ targetuser.uid }}/"><img src="/getpic/?uid={{ targetuser.uid }}&size=picked"></img></a>
 				</li>
 				<li class="uid"> 
