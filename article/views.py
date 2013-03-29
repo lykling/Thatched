@@ -123,6 +123,7 @@ def getleaves(request):
 def getclassform(request):
 	errors = []
 	msgs = []
+	classifies = []
 	loginuser = LoginUser(request)
 	if request.method == "GET":
 		formname = request.GET.get('form_name', '')
@@ -131,8 +132,9 @@ def getclassform(request):
 		classname	= request.POST.get('classname', '')
 		classid		= request.POST.get('classid', '')
 		articleid	= request.POST.get('articleid', '')
+		classifies	= request.POST.getlist('classifies[]', [])
 		if formname == "create":
-			if CharValid(classname):
+			if CharValid(classname) and classname != "unclassified" and classname != "":
 				Classification.objects.create(
 					creator		= loginuser,
 					classname	= classname,
@@ -159,9 +161,25 @@ def getclassform(request):
 							msgs.append(u'classification change successfuly.')
 			else:
 				errors.append(u'article not found.')
+		elif formname == "delete":
+			for classid in classifies:
+				try:
+					classification = Classification.objects.get(classid=classid)
+				except Classification.DoesNotExist:
+					errors.append(u'classification %s does no exist.' % (classid))
+				else:
+					if classification.creator == loginuser and classification.classname != "unclassified":
+						for art in classification.article_set.all():
+							art.classification = loginuser.classification_set.get(classname="unclassified")
+							art.save()
+						classification.delete()
+						msgs.append(u'delete successfuly.')
+					else:
+						errors.append(u'you can\'t delete the classification created by others or delete the default classification.')
 	return render_to_response('article/classform.html', {
 		'errors':				errors,
 		'msgs':					msgs,
 		'loginuser':			loginuser,
 		'formname':				formname,
+		'classifies':			classifies,
 	},context_instance=RequestContext(request))

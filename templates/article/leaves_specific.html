@@ -124,13 +124,20 @@
 					$("#classform_moveto").html(data);
 					$("#classform_moveto").dialog("open");
 				}
+				if (name == 'delete') {
+					$("#classform_delete").html(data);
+					$("#classform_delete").dialog("open");
+				}
 			});
 		}
 		else if (method == "post") {
 			var classid = $("#id_classify").val();
 			var classname = $("#id_classname").val();
 			var articleid = $("#articleid").val();
-			$.post(url, {'form_name':name, 'classid':classid, 'classname':classname, 'articleid':articleid}, function(data) {
+			var classifies = [];
+			var checklist = $("[name=checklist][type=checkbox]:checked")
+			checklist.each(function(){classifies.push($(this).val());});
+			$.post(url, {'form_name':name, 'classid':classid, 'classname':classname, 'articleid':articleid, 'classifies[]':classifies}, function(data) {
 				if (name == "create") {
 					$("#classform_create").html(data);
 					$("#classform_create").dialog("open");
@@ -139,6 +146,11 @@
 				if (name == "moveto") {
 					$("#classform_moveto").html(data);
 					$("#classform_moveto").dialog("open");
+					refreshPage(location.href);
+				}
+				if (name == "delete") {
+					$("#classform_delete").html(data);
+					$("#classform_delete").dialog("open");
 					refreshPage(location.href);
 				}
 			});
@@ -153,6 +165,7 @@
 	function handler() {
 		$("#class_create").click(function() {getclassform('create', 'get')});
 		$("#class_moveto").click(function() {getclassform('moveto', 'get')});
+		$("#class_delete").click(function() {getclassform('delete', 'get')});
 		$("#classform_create").dialog({
 			autoOpen: false,
 			modal:true,
@@ -185,6 +198,22 @@
 				$("#classform_moveto").empty()
 			}
 		});
+		$("#classform_delete").dialog({
+			autoOpen: false,
+			modal:true,
+			resizable:false,
+			buttons:{
+				"delete":function() {
+					getclassform('delete', 'post');
+				},
+				"cancle":function() {
+					$(this).dialog("close");
+				}
+			},
+			close: function() {
+				$("#classform_delete").empty()
+			}
+		});
 	}
 	$(document).ready(handler);
 </script>
@@ -204,6 +233,7 @@
 					<ul class="">
 						<li id="class_moveto"><a>move to</a></li>
 						<li id="class_create"><a>create new</a></li>
+						<li id="class_delete"><a>delete</a></li>
 					</ul>
 					</li>
 				</ul>
@@ -252,6 +282,8 @@
 				<div id="classform_create">
 				</div>
 				<div id="classform_moveto">
+				</div>
+				<div id="classform_delete">
 				</div>
 				{% endif %}
 			</div>

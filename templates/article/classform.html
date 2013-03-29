@@ -22,5 +22,11 @@
 {% else %}
 {% if formname == "create" %}
 <input name="classname" id="id_classname"/>
+{% else %}
+{% if formname == "delete" %}
+{% for opt in loginuser.classelector %}
+<input type="checkbox" name="checklist" value="{{ opt.0 }}">{{ opt.1 }}</input>
+{% endfor %}
+{% endif %}
 {% endif %}
 {% endif %}
