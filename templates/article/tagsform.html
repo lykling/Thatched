@@ -1,0 +1,24 @@
+{% if errors %}
+<ul class="errorlist">
+	{% for error in errors %}
+	<li>{{ error }}</li>
+	{% endfor %}
+</ul>
+<input id="flag" value="0" style="display:none"></input>
+{% else %}
+<ul class="msglist">
+	{% for msg in msgs %}
+	<li>{{ msg }}</li>
+	{% endfor %}
+</ul>
+<input id="flag" value="1" style="display:none"></input>
+{% endif %}
+{% if formname == "add" %}
+<input name="tagname" id="id_tagname"/>
+{% else %}
+{% if formname == "edt" %}
+{% for opt in article.tagselector %}
+<input type="checkbox" name="checklist" value="{{ opt.0 }}" checked>{{ opt.1 }}</input>
+{% endfor %}
+{% endif %}
+{% endif %}

@@ -61,8 +61,15 @@ def writeblog(request):
 	},context_instance=RequestContext(request))
 
 def leaves(request, articleid=0):
-	loginuser	= LoginUser(request)
-	errors		= []
+	loginuser		= LoginUser(request)
+	errors			= []
+	tagname			= request.GET.get('tagname', '')
+	tag				= ""
+	if tagname:
+		try:
+			tag = Tag.objects.get(tagname=tagname)
+		except Tag.DoesNotExist:
+			errors.append(u"tag does not exist.")
 	if articleid:
 		try:
 			article = Article.objects.get(articleid=articleid)
@@ -88,6 +95,7 @@ def leaves(request, articleid=0):
 	return render_to_response('article/leaves.html', {
 		'errors':		errors,
 		'loginuser':	loginuser,
+		'tag':			tag,
 	},context_instance=RequestContext(request))
 
 def getleaves(request):
@@ -97,6 +105,7 @@ def getleaves(request):
 		number	= request.GET.get('number', '1')
 		page	= request.GET.get('page', '1')
 		uid		= request.GET.get('uid', '1')
+		tagname	= request.GET.get('tagname', '')
 		number	= int(number)
 		page	= int(page)
 		uid		= int(uid)
@@ -109,6 +118,17 @@ def getleaves(request):
 				errors.append(u'user does not exist.')
 			else:
 				items = user.article_set.all()
+		elif command == "tagleaves":
+			if tagname:
+				try:
+					tag = Tag.objects.get(tagname=tagname)
+				except Tag.DoesNotExist:
+					errors.append(u"tag does not exist.")
+					items = Article.objects.all()
+				else:
+					items = tag.article_set.all()
+			else:
+				item = Article.objects.all()
 		if number <= 0:
 			number = 1
 		if (page - 1) * number > items.count() - 1:
@@ -182,4 +202,60 @@ def getclassform(request):
 		'loginuser':			loginuser,
 		'formname':				formname,
 		'classifies':			classifies,
+	},context_instance=RequestContext(request))
+
+def gettagsform(request):
+	errors = []
+	msgs = []
+	tags = []
+	loginuser = LoginUser(request)
+	article = ""
+	if request.method == "GET":
+		formname = request.GET.get('form_name', '')
+		articleid = request.GET.get('articleid', '1')
+		try:
+			article = Article.objects.get(articleid=articleid)
+		except Article.DoesNotExist:
+			errors.append(u"article does not exist.")
+	if request.method == "POST":
+		formname	= request.POST.get('form_name', '')
+		tagname		= request.POST.get('tagname', '')
+		tagid		= request.POST.get('tagid', '')
+		articleid	= request.POST.get('articleid', '')
+		tags		= request.POST.getlist('tags[]', [])
+		if formname == "add":
+			if CharValid(tagname):
+				tag = Tag.objects.get_or_create(
+					tagname	= tagname,
+				)
+				try:
+					article = Article.objects.get(articleid=articleid)
+				except Article.DoesNotExist:
+					errors.append(u"article does not exist.")
+				else:
+					article.tags.add(tag[0])
+					msgs.append(u'tag create successfuly.')
+			else:
+				errors.append(u'tagname invalid.')
+		elif formname == "edt":
+			try:
+				article = Article.objects.get(articleid=articleid)
+			except Article.DoesNotExist:
+				errors.append(u"article does not exist.")
+			else:
+				article.tags.clear()
+				for tagid in tags:
+					try:
+						tag = Tag.objects.get(tagid=tagid)
+					except Tag.DoesNotExist:
+						errors.append(u'tag %s does no exist.' % (tagname))
+					else:
+						article.tags.add(tag)
+				msgs.append(u"edit successfuly.")
+	return render_to_response('article/tagsform.html', {
+		'errors':				errors,
+		'msgs':					msgs,
+		'loginuser':			loginuser,
+		'formname':				formname,
+		'article':				article,
 	},context_instance=RequestContext(request))

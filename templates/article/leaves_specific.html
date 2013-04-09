@@ -156,6 +156,42 @@
 			});
 		}
 	}
+	function gettagsform(name, method) {
+		var url = "/gettagsform/";
+		var articleid = $("#articleid").val();
+		if (method == "get") {
+			$.get(url, {'form_name':name, 'articleid':articleid}, function(data) {
+				if (name == 'add') {
+					$("#tagsform_add").html(data);
+					$("#tagsform_add").dialog("open");
+				}
+				if (name == 'edt') {
+					$("#tagsform_edt").html(data);
+					$("#tagsform_edt").dialog("open");
+				}
+			});
+		}
+		else if (method == "post") {
+			var tagid = $("#id_tag").val();
+			var tagname = $("#id_tagname").val();
+			var articleid = $("#articleid").val();
+			var tags = [];
+			var checklist = $("[name=checklist][type=checkbox]:checked")
+			checklist.each(function(){tags.push($(this).val());});
+			$.post(url, {'form_name':name, 'tagsid':tagid, 'tagname':tagname, 'articleid':articleid, 'tags[]':tags}, function(data) {
+				if (name == "add") {
+					$("#tagsform_add").html(data);
+					$("#tagsform_add").dialog("open");
+					refreshPage(location.href);
+				}
+				if (name == "edt") {
+					$("#tagsform_edt").html(data);
+					$("#tagsform_edt").dialog("open");
+					refreshPage(location.href);
+				}
+			});
+		}
+	}
 	var refreshPage = function(url) {
 		var flag = $("#flag").val();
 		if (flag == 1) {
@@ -166,6 +202,8 @@
 		$("#class_create").click(function() {getclassform('create', 'get')});
 		$("#class_moveto").click(function() {getclassform('moveto', 'get')});
 		$("#class_delete").click(function() {getclassform('delete', 'get')});
+		$("#tags_add").click(function() {gettagsform('add', 'get')});
+		$("#tags_edt").click(function() {gettagsform('edt', 'get')});
 		$("#classform_create").dialog({
 			autoOpen: false,
 			modal:true,
@@ -214,6 +252,38 @@
 				$("#classform_delete").empty()
 			}
 		});
+		$("#tagsform_add").dialog({
+			autoOpen: false,
+			modal:true,
+			resizable:false,
+			buttons:{
+				"add":function() {
+					gettagsform('add', 'post');
+				},
+				"cancle":function() {
+					$(this).dialog("close");
+				}
+			},
+			close: function() {
+				$("#tagsform_add").empty()
+			}
+		});
+		$("#tagsform_edt").dialog({
+			autoOpen: false,
+			modal:true,
+			resizable:false,
+			buttons:{
+				"edit":function() {
+					gettagsform('edt', 'post');
+				},
+				"cancle":function() {
+					$(this).dialog("close");
+				}
+			},
+			close: function() {
+				$("#tagsform_edt").empty()
+			}
+		});
 	}
 	$(document).ready(handler);
 </script>
@@ -236,6 +306,13 @@
 						<li id="class_delete"><a>delete</a></li>
 					</ul>
 					</li>
+					<li class="tagslist">
+					<a id="tags" name="tags">tags</a>
+					<ul class="">
+						<li id="tags_add"><a>add new tag</a></li>
+						<li id="tags_edt"><a>edit tags</a></li>
+					</ul>
+					</li>
 				</ul>
 			</div>
 			{% endif %}
@@ -244,6 +321,11 @@
 					<article>
 						<a href="/leaves/{{ article.articleid }}/"><h2>{{ article.title|title }}</h2></a>
 						<h3 id="subtitle">{{ article.subtitle }}</h3>
+						<p>tags:
+						{% for tag in article.tags.all %}
+						&nbsp;<a href="/leaves/?tagname={{ tag.tagname }}">{{ tag.tagname }}</a>
+						{% endfor %}
+						</p>
 						<p id="classification">Classification:{{ article.classification }} | visit:{{ article.visit }}</p>
 						Author:{{ article.author }} | Date:{{ article.postime }} | Lastupdate:{{ article.modifytime }}
 					</article>
@@ -284,6 +366,10 @@
 				<div id="classform_moveto">
 				</div>
 				<div id="classform_delete">
+				</div>
+				<div id="tagsform_add">
+				</div>
+				<div id="tagsform_edt">
 				</div>
 				{% endif %}
 			</div>

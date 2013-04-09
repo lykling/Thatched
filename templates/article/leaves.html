@@ -28,6 +28,62 @@
 			$("#leaves_contain").html(data);
 		});
 	}
+	function gettagleaves() {
+		var tagname = $("#leaves_contain").attr("name");
+		$.get(url, {'command':'tagleaves', 'number':'9', 'page':'1', 'tagname':tagname}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	function gettagleaves_prev() {
+		var tagname = $("#leaves_contain").attr("name");
+		var prev = parseInt($("#currpage").attr("value")) - 1;
+		$("#leaves_contain").removeClass("toprev tonext").delay(100).queue(function(next){
+			$(this).addClass("toprev");
+			next();
+		});
+		$.get(url, {'command':'tagleaves', 'number':'9', 'page':prev, 'tagname':tagname}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	function gettagleaves_next() {
+		var tagname = $("#leaves_contain").attr("name");
+		var next = parseInt($("#currpage").attr("value")) + 1;
+		$("#leaves_contain").removeClass("tonext toprev").delay(100).queue(function(next){
+			$(this).addClass("tonext");
+			next();
+		});
+		$.get(url, {'command':'tagleaves', 'number':'9', 'page':next, 'tagname':tagname}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	function getclassleaves() {
+		var classname = $("#leaves_contain").attr("name");
+		$.get(url, {'command':'classleaves', 'number':'9', 'page':'1', 'classname':classname}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	function getclassleaves_prev() {
+		var classname = $("#leaves_contain").attr("name");
+		var prev = parseInt($("#currpage").attr("value")) - 1;
+		$("#leaves_contain").removeClass("toprev tonext").delay(100).queue(function(next){
+			$(this).addClass("toprev");
+			next();
+		});
+		$.get(url, {'command':'classleaves', 'number':'9', 'page':prev, 'classname':classname}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
+	function getclassleaves_next() {
+		var classname = $("#leaves_contain").attr("name");
+		var next = parseInt($("#currpage").attr("value")) + 1;
+		$("#leaves_contain").removeClass("tonext toprev").delay(100).queue(function(next){
+			$(this).addClass("tonext");
+			next();
+		});
+		$.get(url, {'command':'classleaves', 'number':'9', 'page':next, 'classname':classname}, function(data) {
+			$("#leaves_contain").html(data);
+		});
+	}
 	function getElementsByClassName(className,ele,tagName){
 		var a = [];
 		var eles = null;
@@ -49,7 +105,6 @@
 		}
 		return a
 	}
-	getnewleaves();
 </script>
 {% endblock %}
 {% block body %}
@@ -62,14 +117,45 @@
 			{% endfor %}
 		</ul>
 		{% else %}
+		{% if tag %}
+		<div class="page_prev" onclick="gettagleaves_prev()">
+			<a>&lt;</a>
+		</div>
+		<div id="leaves_contain" class="leaves_contain" name="{{ tag.tagname }}">
+		</div>
+		<script>
+			gettagleaves();
+		</script>
+		<div class="page_prev" onclick="gettagleaves_next()">
+			<a>&gt;</a>
+		</div>
+		{% else %}
+		{% if class %}
+		<div class="page_prev" onclick="getclassleaves_prev()">
+			<a>&lt;</a>
+		</div>
+		<div id="leaves_contain" class="leaves_contain" name="{{ class.classname }}">
+		</div>
+		<script>
+			getclassleaves();
+		</script>
+		<div class="page_prev" onclick="getclassleaves_next()">
+			<a>&gt;</a>
+		</div>
+		{% else %}
 		<div class="page_prev" onclick="getnewleaves_prev()">
 			<a>&lt;</a>
 		</div>
 		<div id="leaves_contain" class="leaves_contain">
 		</div>
+		<script>
+			getnewleaves();
+		</script>
 		<div class="page_next" onclick="getnewleaves_next()">
 			<a>&gt;</a>
 		</div>
+		{% endif %}
+		{% endif %}
 		{% endif %}
 	</div>
 	<div id="user" class="box">

@@ -62,7 +62,7 @@
 				<!-- <a href="/profile/{{ targetuser.uid }}/"><img src="/getpic/?uid={{ targetuser.uid }}&size=picked"></img></a> -->
 				</li>
 				<li class="nickname">
-				nickname:<a href="/profile/{{ targetuser.uid }}/">{{ targetuser.profile.nickname }}</a>
+				nickname:<a href="/profile/{{ targetuser.uid }}/">{% if targetuser.profile.nickname %}{{ targetuser.profile.nickname }}{% else %}{{ targetuser.username }}{% endif %}</a>
 				</li>
 				<li class="email"> 
 				email:{{ targetuser.profile.defaultemail }}
@@ -73,7 +73,7 @@
 				</li>
 				<hr />
 				<li class="intro">
-				{{ loginuser.profile.intro }}
+				<pre>{{ loginuser.profile.intro }}</pre>
 				</li>
 			</ul>
 		</div>

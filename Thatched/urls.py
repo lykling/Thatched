@@ -27,6 +27,7 @@ urlpatterns += patterns('article.views',
 	(r'^leaves/$|^leaves/(\d{1,8})/$', leaves),
 	(r'^getleaves/$', getleaves),
 	(r'^getclassform/$', getclassform),
+	(r'^gettagsform/$', gettagsform),
 )
 
 urlpatterns += patterns('editor.views',

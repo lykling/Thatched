@@ -7,6 +7,8 @@ from account.models import *
 class Tag(models.Model):
 	tagid			= models.AutoField(primary_key=True)
 	tagname			= models.CharField(max_length=16)
+	def __unicode__(self):
+		return self.tagname
 
 class Classification(models.Model):
 	classid			= models.AutoField(primary_key=True)
@@ -28,3 +30,5 @@ class Article(models.Model):
 	content			= models.TextField(max_length=32767)
 	class Meta:
 		ordering	= ['-postime']
+	def tagselector(self):
+		return [(x.tagid, x.tagname) for x in self.tags.all()]

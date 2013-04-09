@@ -413,13 +413,13 @@
 	</div>
 	<div id="user" class="box">
 		<div class="userinfo">
-			<ul>
+			<ul class="infolist">
 				<li class="avatar">
 				<a class="gravatar" href="http://en.gravatar.com/emails" title="change avatar on gravatat.com"><img src="{% gravatar_url loginuser.email %}" alt=""/></a>
 				<!-- <a href="/profile/{{ loginuser.uid }}/"><img src="/getpic/?uid={{ loginuser.uid }}&size=picked"></img></a> -->
 				</li>
 				<li class="nickname">
-				nickname:<a href="/profile/{{ loginuser.uid }}/">{{ loginuser.profile.nickname }}</a>
+				nickname:<a href="/profile/{{ loginuser.uid }}/">{% if loginuser.profile.nickname %}{{ loginuser.profile.nickname }}{% else %}{{ loginuser.username }}{% endif %}</a>
 				</li>
 				<li class="email"> 
 				email:{{ loginuser.profile.defaultemail }}
@@ -430,7 +430,7 @@
 				</li>
 				<hr />
 				<li class="intro">
-				{{ loginuser.profile.intro }}
+				<pre>{{ loginuser.profile.intro }}</pre>
 				</li>
 			</ul>
 		</div>
