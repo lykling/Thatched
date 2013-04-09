@@ -4,7 +4,7 @@
 <script>
 	var url="/getleaves/"
 	function getnewleaves() {
-		$.get(url, {'command':'newest', 'number':'5', 'page':'1'}, function(data) {
+		$.get(url, {'command':'newest', 'number':'9', 'page':'1'}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
@@ -14,7 +14,7 @@
 			$(this).addClass("toprev");
 			next();
 		});
-		$.get(url, {'command':'newest', 'number':'5', 'page':prev}, function(data) {
+		$.get(url, {'command':'newest', 'number':'9', 'page':prev}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
@@ -24,7 +24,7 @@
 			$(this).addClass("tonext");
 			next();
 		});
-		$.get(url, {'command':'newest', 'number':'5', 'page':next}, function(data) {
+		$.get(url, {'command':'newest', 'number':'9', 'page':next}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
@@ -73,27 +73,6 @@
 		{% endif %}
 	</div>
 	<div id="user" class="box">
-		<div class="userinfo">
-			<ul>
-				<li class="avatar">
-				<a href="/profile/{{ loginuser.uid }}/"><img src="/getpic/?uid={{ loginuser.uid }}&size=picked"></img></a>
-				</li>
-				<li class="uid"> 
-				uid:{{ loginuser.profile.uid }}
-				</li>
-				<li class="nickname">
-				nickname:<a href="/profile/{{ loginuser.uid }}/">{{ loginuser.profile.nickname }}</a>
-				</li>
-				<hr />
-				<li class=""> 
-				leaves:{{ loginuser.article_set.all.count }}
-				</li>
-				<hr />
-				<li class="intro">
-				intro:{{ loginuser.profile.intro }}
-				</li>
-			</ul>
-		</div>
 	</div>
 </div>
 {% endblock %}

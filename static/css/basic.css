@@ -43,9 +43,11 @@ html,body {
 	background-color:		rgba(0,0,0,0.0);
 }
 .bar_top {
+	z-index:				99;
 	height:					40px;
 	width:					100%;
 	position:				fixed;
+	_position:				absolute;
 	background:				#111;
 	background:				-moz-linear-gradient(#444, #111);
 	background:				-webkit-gradient(linear, left bottom, left top, color-stop(0, #111), color-stop(1, #444));

@@ -48,7 +48,7 @@ class RegisterForm(forms.ModelForm):
 					'placeholder':	'eg. "fj!5EY39',
 					'required':		'required',
 					}),
-				'email':	forms.TextInput(attrs={
+				'email':		forms.TextInput(attrs={
 					'placeholder':	'mysupermail@mail.com',
 					'required':		'required',
 					'type':			'email',
@@ -66,7 +66,11 @@ class ProfileForm(forms.ModelForm):
 	sns				= forms.CharField(required=False, widget=forms.TextInput(attrs={
 		'placeholder':	'SNS',
 		}))
+	defaultemail	= forms.EmailField(required=False, widget=forms.TextInput(attrs={
+		'placeholder':	'Email for public',
+		}))
 	intro			= forms.CharField(required=False, widget=forms.Textarea(attrs={
+		'cols':			'39',
 		'placeholder':	'Intro',
 		}))
 	password_old	= forms.CharField(required=False, widget=forms.PasswordInput(attrs={
@@ -78,6 +82,9 @@ class ProfileForm(forms.ModelForm):
 	password_cfm	= forms.CharField(required=False, widget=forms.PasswordInput(attrs={
 		'placeholder':	'confirm password',
 		}))
+	semail			= forms.EmailField(required=False, widget=forms.TextInput(attrs={
+		'placeholder':	'Email for security',
+		}))
 	class Meta:
 		model = UserProfile
-		fields = ('nickname', 'realname', 'sns', 'intro',)
+		fields = ('nickname', 'realname', 'sns', 'defaultemail', 'intro',)

@@ -44,6 +44,7 @@ def login(request):
 				password = registerform.cleaned_data['password_reg']
 				email = registerform.cleaned_data['email']
 				confirm = registerform.cleaned_data['confirm']
+				now = datetime.datetime.utcnow().replace(tzinfo=pytz.utc)
 				if not CharValid(username):
 					errors.append(u"username contain invalid character.")
 				if password != confirm:
@@ -57,7 +58,7 @@ def login(request):
 							username=username,
 							password=password,
 							email = email,
-							profile = UserProfile.objects.create(nickname=username, regip=remoteip),
+							profile = UserProfile.objects.create(nickname=username, regip=remoteip, regtime=now),
 					)
 					Classification.objects.create(creator=user,classname='unclassified')
 					request.session['user'] = user
@@ -99,7 +100,9 @@ def profile(request, uid):
 		'nickname':		loginuser.profile.nickname,
 		'realname':		loginuser.profile.realname,
 		'sns':			loginuser.profile.sns,
+		'defaultemail':	loginuser.profile.defaultemail,
 		'intro':		loginuser.profile.intro,
+		'semail':		loginuser.email,
 		})
 	if uid:
 		user = User.objects.get(uid=uid)
@@ -134,15 +137,22 @@ def profile(request, uid):
 			pwd_old = form.cleaned_data['password_old']
 			pwd_new = form.cleaned_data['password_new']
 			pwd_cfm = form.cleaned_data['password_cfm']
+			semail	= form.cleaned_data['semail']
 			if (not pwd_old) and (not pwd_new) and (not pwd_cfm):
-				a = "hello world"
+				if loginuser.email != semail:
+					errors.append(u"password required for changing the security email.")
 			else:
 				slat_p = request.session['slat']
 				if loginuser.md5pwdequal(slat=slat_p, opwd=pwd_old):
-					if pwd_new != pwd_cfm:
-						errors.append(u"Please check that your passwords match and try again.")
+					if pwd_new or pwd_cfm:
+						if pwd_new != pwd_cfm:
+							errors.append(u"Please check that your passwords match and try again.")
+						else:
+							loginuser.password = pwd_new
+							loginuser.email = semail
+							loginuser.save()
 					else:
-						loginuser.password = pwd_new
+						loginuser.email = semail
 						loginuser.save()
 				else:
 					errors.append(u"password error.")
@@ -157,7 +167,9 @@ def profile(request, uid):
 			else:
 				loginuser.profile.realname = realname
 			loginuser.profile.sns			= form.cleaned_data['sns']
+			loginuser.profile.defaultemail	= form.cleaned_data['defaultemail']
 			loginuser.profile.intro			= form.cleaned_data['intro']
+			aa = loginuser.profile.regtime
 			loginuser.profile.save()
 	slat = randomstr(5)
 	request.session['slat'] = slat

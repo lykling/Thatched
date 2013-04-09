@@ -6,7 +6,7 @@
 	var url="/getleaves/"
 	var uid="{{ targetuser.uid }}";
 	function getuserleaves() {
-		$.get(url, {'command':'userleaves', 'number':'5', 'page':'1', 'uid':uid}, function(data) {
+		$.get(url, {'command':'userleaves', 'number':'9', 'page':'1', 'uid':uid}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
@@ -16,7 +16,7 @@
 			$(this).addClass("toprev");
 			next();
 		});
-		$.get(url, {'command':'userleaves', 'number':'5', 'page':prev, 'uid':uid}, function(data) {
+		$.get(url, {'command':'userleaves', 'number':'9', 'page':prev, 'uid':uid}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
@@ -26,7 +26,7 @@
 			$(this).addClass("tonext");
 			next();
 		});
-		$.get(url, {'command':'userleaves', 'number':'5', 'page':next, 'uid':uid}, function(data) {
+		$.get(url, {'command':'userleaves', 'number':'9', 'page':next, 'uid':uid}, function(data) {
 			$("#leaves_contain").html(data);
 		});
 	}
@@ -58,14 +58,14 @@
 		<div class="userinfo">
 			<ul class="infolist">
 				<li class="avatar">
-				<!-- <a class="gravatar" href="http://en.gravatar.com/emails" title="change avatar on gravatat.com"><img src="{% gravatar_url targetuser.email %}" alt=""/></a> -->
-				<a href="/profile/{{ targetuser.uid }}/"><img src="/getpic/?uid={{ targetuser.uid }}&size=picked"></img></a>
-				</li>
-				<li class="uid"> 
-				uid:{{ targetuser.profile.uid }}
+				<a class="gravatar" href="http://en.gravatar.com/emails" title="change avatar on gravatat.com"><img src="{% gravatar_url targetuser.email %}" alt=""/></a>
+				<!-- <a href="/profile/{{ targetuser.uid }}/"><img src="/getpic/?uid={{ targetuser.uid }}&size=picked"></img></a> -->
 				</li>
 				<li class="nickname">
 				nickname:<a href="/profile/{{ targetuser.uid }}/">{{ targetuser.profile.nickname }}</a>
+				</li>
+				<li class="email"> 
+				email:{{ targetuser.profile.defaultemail }}
 				</li>
 				<hr />
 				<li class=""> 
@@ -73,7 +73,7 @@
 				</li>
 				<hr />
 				<li class="intro">
-				intro:{{ targetuser.profile.intro }}
+				{{ loginuser.profile.intro }}
 				</li>
 			</ul>
 		</div>

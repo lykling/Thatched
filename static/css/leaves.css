@@ -118,6 +118,9 @@
 	-webkit-border-radius:		3px;
 	background-color:			rgba(255,255,255,1.0);
 }
+.userinfo li {
+	list-style-type:			none;
+}
 .box .page_prev,
 .box .page_next,
 .box .leaves_contain {
@@ -151,7 +154,7 @@
 	margin-bottom:				auto;
 	width:						10%;
 	text-align:					center;
-	height:						300px;
+	height:						540px;
 }
 .box .page_prev:hover,
 .box .page_next:hover {

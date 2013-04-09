@@ -1,3 +1,4 @@
+{% load filters %}
 <ul class="leaves_list">
 	<input id="currpage" type="hidden" name="page" value="{{page}}">
 	{% for item in items %}
@@ -9,7 +10,7 @@
 	</div>
 	<div class="leaves_content">
 		<!-- <a class="" href="/leaves/{{ item.articleid }}/">{{ item.content|striptags|cut:"&nbsp;"|center:"1"|truncatewords:"30"|escape }}</a> -->
-		<a class="" href="/leaves/{{ item.articleid }}/">{{ item.content|striptags|cut:"&nbsp;"|center:"1"|truncatewords:"30"|escape }}</a>
+		<a class="" href="/leaves/{{ item.articleid }}/">{{ item.content|striptags|cut:"&nbsp;"|center:"1"|truncatehanzi:"20"|escape }}</a>
 	</div>
 	</li>
 	{% endfor %}

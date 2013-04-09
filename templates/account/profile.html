@@ -1,4 +1,5 @@
 {% extends "basic.html" %}
+{% load gravatar %}
 {% block head_ext %}
 <script type="text/javascript" src="/static/js/csrf.js"></script>
 <script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
@@ -141,7 +142,7 @@
 		margin:				0px;
 		padding:			0px;
 		width:				19%;
-		height:				300px;
+		height:				339px;
 		background:			rgba(255,255,255,1.0);
 		position:			relative;
 		background:			rgb(247, 247, 247);
@@ -188,7 +189,7 @@
 		width:				79%;
 		background:			rgba(255,255,255,1.0);
 		position:			relative;
-		height:				300px;
+		height:				339px;
 		background:			rgb(247, 247, 247);
 		-webkit-box-shadow:	0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
 		-moz-box-shadow:	0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
@@ -304,6 +305,13 @@
 		left:				10px;
 		top:				10px;
 	}
+	.form .intro {
+		width:				90%;
+	}
+	.form .info textarea {
+		cols:				20;
+		width:				99%;
+	}
 </style>
 <script>
 	function currtab(id) {
@@ -350,9 +358,12 @@
 			<a id="security"></a>
 			<div id="formbox" class="formbox">
 				<div id="forminfo" class="animate form">
+					<!-- <div class="avatar"> -->
+						<!-- {{ form.avatar.errors }} -->
+						<!-- {{ form.avatar }} -->
+					<!-- </div> -->
 					<div class="avatar">
-						{{ form.avatar.errors }}
-						{{ form.avatar }}
+						<a href="http://en.gravatar.com/emails">Change avatar on gravatar</a>
 					</div>
 					<div class="nickname">
 						{{ form.nickname.errors }}
@@ -365,6 +376,10 @@
 					<div class="sns">
 						{{ form.sns.errors }}
 						{{ form.sns }}
+					</div>
+					<div class="defaultemail">
+						{{ form.defaultemail.errors }}
+						{{ form.defaultemail }}
 					</div>
 					<div class="intro">
 						{{ form.intro.errors }}
@@ -385,6 +400,10 @@
 						{{ form.password_cfm.errors }}
 						{{ form.password_cfm }}
 					</div>
+					<div class="semail">
+						{{ form.semail.errors }}
+						{{ form.semail }}
+					</div>
 				</div>
 			</div>
 			<div class="submit">
@@ -396,13 +415,14 @@
 		<div class="userinfo">
 			<ul>
 				<li class="avatar">
-				<a href="/profile/{{ loginuser.uid }}/"><img src="/getpic/?uid={{ loginuser.uid }}&size=picked"></img></a>
-				</li>
-				<li class="uid"> 
-				uid:{{ loginuser.profile.uid }}
+				<a class="gravatar" href="http://en.gravatar.com/emails" title="change avatar on gravatat.com"><img src="{% gravatar_url loginuser.email %}" alt=""/></a>
+				<!-- <a href="/profile/{{ loginuser.uid }}/"><img src="/getpic/?uid={{ loginuser.uid }}&size=picked"></img></a> -->
 				</li>
 				<li class="nickname">
 				nickname:<a href="/profile/{{ loginuser.uid }}/">{{ loginuser.profile.nickname }}</a>
+				</li>
+				<li class="email"> 
+				email:{{ loginuser.profile.defaultemail }}
 				</li>
 				<hr />
 				<li class=""> 
@@ -410,7 +430,7 @@
 				</li>
 				<hr />
 				<li class="intro">
-				intro:{{ loginuser.profile.intro }}
+				{{ loginuser.profile.intro }}
 				</li>
 			</ul>
 		</div>

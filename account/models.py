@@ -10,13 +10,21 @@ class UserProfile(models.Model):
 	realname		= models.CharField(max_length=39, null=True)
 	sns				= models.URLField(null=True)
 	regip			= models.IPAddressField()
-	intro			= models.CharField(max_length=20, null=True)
+	regtime			= models.DateTimeField()
+	defaultemail	= models.EmailField(null=True)
+	intro			= models.CharField(max_length=200, null=True)
+
+class UserEmail(models.Model):
+	email			= models.EmailField()
+	owner		 	= models.ForeignKey(UserProfile)
+	def __unicode__(self):
+		return self.email
 
 class User(models.Model):
 	uid				= models.AutoField(primary_key=True)
 	username		= models.CharField(max_length=16)
 	password		= models.CharField(max_length=32)
-	email			= models.EmailField(null=True)
+	email			= models.EmailField()
 	profile			= models.OneToOneField(UserProfile)
 	def __unicode__(self):
 		return self.username
