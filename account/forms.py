@@ -11,7 +11,7 @@ class LoginForm(forms.ModelForm):
 		fields = ('username', 'password')
 		widgets = {
 				'username':		forms.TextInput(attrs={
-					'placeholder':	'username or email@mail.com',
+					'placeholder':	'username',
 					'required':		'required',
 					}),
 				'password':		forms.PasswordInput(attrs={
@@ -25,7 +25,7 @@ class LoginForm(forms.ModelForm):
 
 class RegisterForm(forms.ModelForm):
 	username_reg	= forms.CharField(widget=forms.TextInput(attrs={
-		'placeholder':	'username or email@mail.com',
+		'placeholder':	'username',
 		'required':		'required',
 		}))
 	password_reg = forms.CharField(widget=forms.PasswordInput(attrs={
@@ -41,7 +41,7 @@ class RegisterForm(forms.ModelForm):
 		fields = ('email',)
 		widgets = {
 				'username':		forms.TextInput(attrs={
-					'placeholder':	'username or email@mail.com',
+					'placeholder':	'username',
 					'required':		'required',
 					}),
 				'password':		forms.PasswordInput(attrs={
