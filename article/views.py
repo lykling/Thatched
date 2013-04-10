@@ -87,6 +87,8 @@ def leaves(request, articleid=0):
 				})
 				form.base_fields['classid'].choices = loginuser.classelector()
 				form.fields['classid'].choices = loginuser.classelector()
+			else:
+				form = BlogPostForm()
 			return render_to_response('article/leaves_specific.html', {
 				'errors':		errors,
 				'loginuser':	loginuser,
