@@ -78,14 +78,15 @@ def leaves(request, articleid=0):
 		else:
 			article.visit += 1
 			article.save()
-			form = BlogPostForm(initial={
-				'classid':		loginuser.classelector(),
-				'title':		article.title,
-				'subtitle':		article.subtitle,
-				'content':		article.content,
-			})
-			form.base_fields['classid'].choices = loginuser.classelector()
-			form.fields['classid'].choices = loginuser.classelector()
+			if loginuser:
+				form = BlogPostForm(initial={
+					'classid':		loginuser.classelector(),
+					'title':		article.title,
+					'subtitle':		article.subtitle,
+					'content':		article.content,
+				})
+				form.base_fields['classid'].choices = loginuser.classelector()
+				form.fields['classid'].choices = loginuser.classelector()
 			return render_to_response('article/leaves_specific.html', {
 				'errors':		errors,
 				'loginuser':	loginuser,
