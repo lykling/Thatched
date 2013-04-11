@@ -58,7 +58,7 @@
 		<div class="userinfo">
 			<ul class="infolist">
 				<li class="avatar">
-				<a class="gravatar" href="http://en.gravatar.com/emails" title="change avatar on gravatat.com"><img src="{% gravatar_url targetuser.email %}" alt=""/></a>
+				<a class="gravatar" href="/profile/{{ targetuser.uid }}" title="change avatar on gravatat.com"><img src="{% gravatar_url targetuser.email %}" alt=""/></a>
 				<!-- <a href="/profile/{{ targetuser.uid }}/"><img src="/getpic/?uid={{ targetuser.uid }}&size=picked"></img></a> -->
 				</li>
 				<li class="nickname">
