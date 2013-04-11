@@ -1,5 +1,6 @@
 {% extends "basic.html" %}
 {% load gravatar %}
+{% load gravatar_filter %}
 {% block head_ext %}
 <script type="text/javascript" src="/static/js/csrf.js"></script>
 <script type="text/javascript" src="/static/ckeditor/ckeditor/ckeditor.js"></script>
@@ -142,7 +143,7 @@
 		margin:				0px;
 		padding:			0px;
 		width:				19%;
-		height:				339px;
+		height:				589px;
 		background:			rgba(255,255,255,1.0);
 		position:			relative;
 		background:			rgb(247, 247, 247);
@@ -189,7 +190,7 @@
 		width:				79%;
 		background:			rgba(255,255,255,1.0);
 		position:			relative;
-		height:				339px;
+		height:				589px;
 		background:			rgb(247, 247, 247);
 		-webkit-box-shadow:	0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
 		-moz-box-shadow:	0pt 2px 5px rgba(105, 108, 109,  0.7),	0px 0px 8px 5px rgba(208, 223, 226, 0.4) inset;
@@ -363,7 +364,8 @@
 						<!-- {{ form.avatar }} -->
 					<!-- </div> -->
 					<div class="avatar">
-						<a href="http://en.gravatar.com/emails">Change avatar on gravatar</a>
+						<a class="gravatar" href="http://en.gravatar.com/emails" title="change avatar on gravatat.com"><img src="{{ loginuser.email|gravatar:"239" }}" alt=""/></a>
+						<!-- <a href="http://en.gravatar.com/emails">Change avatar on gravatar</a> -->
 					</div>
 					<div class="nickname">
 						{{ form.nickname.errors }}
@@ -430,7 +432,7 @@
 				</li>
 				<hr />
 				<li class="intro">
-				<pre>{{ loginuser.profile.intro }}</pre>
+				{{ loginuser.profile.intro }}
 				</li>
 			</ul>
 		</div>

@@ -67,7 +67,7 @@ def leaves(request, articleid=0):
 	tag				= ""
 	if tagname:
 		try:
-			tag = Tag.objects.get(tagname=tagname)
+			tag = Tag.objects.get(tagname=u"%s" % (tagname))
 		except Tag.DoesNotExist:
 			errors.append(u"tag does not exist.")
 	if articleid:
@@ -99,6 +99,7 @@ def leaves(request, articleid=0):
 		'errors':		errors,
 		'loginuser':	loginuser,
 		'tag':			tag,
+		'tags':			Tag.sort_by_number_of_articles()[0:10],
 	},context_instance=RequestContext(request))
 
 def getleaves(request):

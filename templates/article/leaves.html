@@ -158,7 +158,12 @@
 		{% endif %}
 		{% endif %}
 	</div>
-	<div id="user" class="box">
+	<div id="others" class="box">
+		<div class="hottags">
+				{% for otag in tags %}
+				<li><a href="/leaves/?tagname={{ otag.toURL }}">{{ otag.tagname }}</a></li>
+				{% endfor %}
+		</div>
 	</div>
 </div>
 {% endblock %}

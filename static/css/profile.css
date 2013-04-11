@@ -1,4 +1,13 @@
 .userinfo .infolist .intro {
-	height:					100px;
+	height:					120px;
 	overflow:				hidden;
+}
+.userinfo .infolist .avatar {
+	text-align:				center;
+}
+.infolist {
+	padding:				0px 25px 0px 25px;
+}
+.formbox .form .avatar {
+	text-align:				center;
 }

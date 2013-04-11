@@ -9,6 +9,14 @@ class Tag(models.Model):
 	tagname			= models.CharField(max_length=16)
 	def __unicode__(self):
 		return self.tagname
+	def toURL(self):
+		return self.tagname.replace(r'+', r'%2B')
+	@staticmethod
+	def sort_by_number_of_articles():
+		def cmpkey(opt):
+			return opt.article_set.count()
+		tags = Tag.objects.all()
+		return sorted(tags, reverse=True, key=cmpkey)
 
 class Classification(models.Model):
 	classid			= models.AutoField(primary_key=True)
